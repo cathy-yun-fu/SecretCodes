@@ -3,6 +3,9 @@ package codes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class PigLatinTest {
 
     // since stateless, we declare one instance for test
@@ -47,11 +50,6 @@ public class PigLatinTest {
     }
 
     @Test
-    public void givenPhraseStartingWithVowels_testMorph_expectPigLatinPhrase() {
-
-    }
-
-    @Test
     public void givenPhraseDifferentLeadingOrTrailingSpaces_testMorph_expectPigLatinPhrase() {
         /*
             This phrase does not have leading or trailing spaces
@@ -75,17 +73,8 @@ public class PigLatinTest {
 
     @Test
     public void givenPhraseWithSymbols_testMorph_expectPigLatinPhrase() {
-        TestParams zeroLengthString = new TestParams("", "");
-        TestParams stringWithNoWords = new TestParams("    ","    ");
+        TestParams punctuationString = new TestParams(" should've could've would've but nope?!?.", " ould'veshay ould'vecay ould'veway utbay openay?!?.");
 
-        Assertions.assertEquals(zeroLengthString.expectedOutput , pigLatin.morph(zeroLengthString.input));
-        Assertions.assertEquals(stringWithNoWords.expectedOutput , pigLatin.morph(stringWithNoWords.input));
-    }
-
-    @Test
-    public void testATest() {
-        String[] values = " what  does this split into ".split(" ");
-
-        System.out.println(values.length);
+        Assertions.assertEquals(punctuationString.expectedOutput , pigLatin.morph(punctuationString.input));
     }
 }

@@ -3,6 +3,8 @@ package codes;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PigLatin extends Code {
 
@@ -32,21 +34,43 @@ public class PigLatin extends Code {
         if (input.trim().isEmpty()) {
             return input;
         }
-        String[] words = input.split(" ");
+
+        Matcher matchedWordBoundaries = Pattern.compile("[^a-zA-Z0-9'-]").matcher(input);
 
         StringBuilder finalWords = new StringBuilder();
 
-        for(String word : words) {
-            if (word.length() == 1) {
-                finalWords.append(word).append(" ");
-                continue;
-            } else if (word.isEmpty()) {
-                // An empty word means there was an extra space that should be kept
-                finalWords.append(" ");
-                continue;
-            }
-            char[] letters =  word.toCharArray();
+        int wordStartIndex = 0;
+        int wordEndIndex = 0;
+        while (matchedWordBoundaries.find()){
+            wordEndIndex = matchedWordBoundaries.start();
 
+            morphWord(input, wordStartIndex, wordEndIndex, finalWords);
+
+            wordStartIndex = matchedWordBoundaries.end();
+        }
+
+        if (wordStartIndex < input.length()-1) {
+            morphWord(input, wordStartIndex, input.length(), finalWords);
+        }
+
+        return finalWords.toString();
+
+    }
+
+    // Given a word identified in "input" as at [wordStartIndex, wordEndIndex), convert it to pigLatin
+    private void morphWord(String input, int wordStartIndex, int wordEndIndex, StringBuilder finalWords) {
+        String word = input.substring(wordStartIndex, wordEndIndex);
+
+        if (word.isEmpty()) {
+            // preserve symbols
+            finalWords.append(input.charAt(wordStartIndex));
+        } else if (word.length() == 1) {
+            // todo: review the following decision:
+            // In this version of Pig Latin, single letter words aren't morphed
+            finalWords.append(word);
+            appendMatcher(input, wordEndIndex, finalWords);
+        } else {
+            char[] letters = word.toCharArray();
             StringBuilder finalWord = new StringBuilder();
 
             int split = findSplit(letters);
@@ -54,33 +78,18 @@ public class PigLatin extends Code {
             finalWord.append(Arrays.copyOfRange(letters, 0, split));
             finalWord.append("ay");
 
-            finalWords.append(finalWord).append(" ");
-
+            finalWords.append(finalWord);
+            appendMatcher(input, wordEndIndex, finalWords);
         }
 
-        int numTrailingSpaces = countTrailingSpaces(input);
-
-        if (numTrailingSpaces < 1) {
-            // Clean up the last space
-            finalWords.deleteCharAt(finalWords.length()-1);
-        } else if (numTrailingSpaces > 1) {
-            // Add more spaces
-            finalWords.append(" ".repeat(numTrailingSpaces-1));
-        }
-
-        return finalWords.toString();
     }
 
-    private int countTrailingSpaces(String input) {
-        int numSpaces = 0;
-        for (int i = input.length()-1; i >= 0; i--) {
-            if (input.charAt(i) == ' ') {
-                numSpaces++;
-            } else {
-                return numSpaces;
-            }
+    public void appendMatcher(String input, int index, StringBuilder finalWords) {
+        if ((input.length() - 1) < index) {
+            return;
         }
-        return numSpaces;
+
+        finalWords.append(input.charAt(index));
     }
 
     private int findSplit(char[] letters) {

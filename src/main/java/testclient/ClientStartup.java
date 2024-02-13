@@ -1,5 +1,10 @@
+package testclient;
+
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.ManagedChannel;
+import org.funstuff.secretcodes.EncodeRequest;
+import org.funstuff.secretcodes.EncodeResponse;
+import org.funstuff.secretcodes.SecretCodesServerGrpc;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -15,9 +20,14 @@ public class ClientStartup {
         SecretCodesServerGrpc.SecretCodesServerBlockingStub stub =
                 SecretCodesServerGrpc.newBlockingStub(channel);
 
+        String message = "A proper sentence.";
+
         EncodeRequest request = EncodeRequest.newBuilder()
-                .setMessage("this is la di dah message a a a c c c !!woot is me")
+                .setMessage(message)
                 .build();
+
+        System.out.println("Message I sent: " + message);
+        System.out.println(request.getMessage());
 
         EncodeResponse response = stub.encode(request);
         System.out.println("this is response: " + response.getMessage());

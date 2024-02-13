@@ -20,6 +20,7 @@ public class Encoder {
         String text = inputString;
         for (Code c : translationsToApply.stream().toList()) {
             text = c.morph(text);
+            System.out.println("morphed: " + text);
         }
         return text;
     }

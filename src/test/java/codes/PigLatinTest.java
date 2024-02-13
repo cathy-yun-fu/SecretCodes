@@ -1,10 +1,8 @@
 package codes;
 
+import logic.codes.PigLatin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PigLatinTest {
 

@@ -1,4 +1,4 @@
-package codes;
+package logic.codes;
 
 public class Code {
 

@@ -1,0 +1,27 @@
+syntax = "proto3";
+option java_multiple_files = true;
+
+service SecretCodesServer {
+  rpc encode(EncodeRequest ) returns (EncodeResponse);
+  rpc decode(DecodeRequest ) returns (DecodeResponse);
+}
+
+message EncodeRequest {
+  string message = 1;
+  string code = 2; //todo: change to not string
+}
+
+message EncodeResponse {
+  string message = 1;
+}
+
+
+message DecodeRequest {
+  string message = 1;
+  string code = 2; //todo: change to not string
+}
+
+message DecodeResponse {
+  string message = 1;
+}
+

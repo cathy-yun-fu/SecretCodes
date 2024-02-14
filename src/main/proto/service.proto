@@ -7,9 +7,15 @@ service SecretCodesServer {
   rpc decode(DecodeRequest ) returns (DecodeResponse);
 }
 
+enum Code {
+  UNKNOWN = 0;
+  SWAP_ENDS = 1;
+  PIG_LATIN = 2;
+}
+
 message EncodeRequest {
   string message = 1;
-  string code = 2; //todo: change to not string
+  repeated Code code = 2;
 }
 
 message EncodeResponse {
@@ -19,10 +25,11 @@ message EncodeResponse {
 
 message DecodeRequest {
   string message = 1;
-  string code = 2; //todo: change to not string
+  repeated Code code = 2;
 }
 
 message DecodeResponse {
-  string message = 1;
+  /* For some codes there may be multiple possible decodings */
+  repeated string message = 1;
 }
 

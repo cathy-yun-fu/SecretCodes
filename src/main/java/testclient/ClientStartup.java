@@ -2,6 +2,7 @@ package testclient;
 
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.ManagedChannel;
+import org.funstuff.secretcodes.Code;
 import org.funstuff.secretcodes.EncodeRequest;
 import org.funstuff.secretcodes.EncodeResponse;
 import org.funstuff.secretcodes.SecretCodesServerGrpc;
@@ -24,13 +25,13 @@ public class ClientStartup {
 
         EncodeRequest request = EncodeRequest.newBuilder()
                 .setMessage(message)
+                .addCode(Code.SWAP_ENDS)
                 .build();
 
-        System.out.println("Message I sent: " + message);
-        System.out.println(request.getMessage());
+        logger.info("Message I sent: " + request.getMessage());
 
         EncodeResponse response = stub.encode(request);
-        System.out.println("this is response: " + response.getMessage());
+        logger.info("Response I get: " + response.getMessage());
     }
 }
 

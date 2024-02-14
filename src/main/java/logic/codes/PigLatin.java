@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class PigLatin extends Code {
 
-    Set<Character> vowels = new HashSet<>() {
+    private static final Set<Character> vowels = new HashSet<>() {
         {
             add('a');
             add('A');
@@ -23,13 +23,14 @@ public class PigLatin extends Code {
         }
     };
 
-    Set<Character> sometimeVowels = new HashSet<>() {
+    private static final Set<Character> sometimeVowels = new HashSet<>() {
         {
             add('y');
             add('Y');
         }
     };
 
+    @Override
     public String morph(String input) {
         if (input.trim().isEmpty()) {
             return input;
@@ -106,4 +107,8 @@ public class PigLatin extends Code {
         return letters.length-1;
     }
 
+    @Override
+    public String decipher(String input) {
+        return super.decipher(input);
+    }
 }

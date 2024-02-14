@@ -6,7 +6,10 @@ public class SwapEnds extends Code {
     
     @Override
     public String morph(String input) {
+        return swap(input);
+    }
 
+    private String swap(String input) {
         String[] words = input.split(" ");
 
         StringBuilder finalWords = new StringBuilder();
@@ -34,5 +37,10 @@ public class SwapEnds extends Code {
         }
 
         return finalWords.toString();
+    }
+
+    @Override
+    public String decipher(String input) {
+        return swap(input);
     }
 }

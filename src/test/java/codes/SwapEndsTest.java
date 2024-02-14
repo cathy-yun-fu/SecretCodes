@@ -1,6 +1,5 @@
 package codes;
 
-import logic.codes.PigLatin;
 import logic.codes.SwapEnds;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

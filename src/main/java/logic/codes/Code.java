@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 public class Code {
 
+    @FunctionalInterface
     public interface PerWordImpl {
         void impl(String input, int wordStartIndex, int wordEndIndex, StringBuilder finalWords);
     }

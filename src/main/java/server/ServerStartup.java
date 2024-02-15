@@ -22,18 +22,15 @@ public class ServerStartup {
 
         logger.info("server started on port " + port);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                System.err.println(" server is shutting down ");
-                try {
-                    server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.err.println(" server shut down ");
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.err.println(" server is shutting down ");
+            try {
+                server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
+            System.err.println(" server shut down ");
+        }));
 
 
         server.awaitTermination();

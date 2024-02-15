@@ -1,37 +1,62 @@
 package testclient;
 
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.ManagedChannel;
-import org.funstuff.secretcodes.Code;
-import org.funstuff.secretcodes.EncodeRequest;
+import com.google.common.util.concurrent.ListenableFuture;
+import org.checkerframework.checker.units.qual.C;
 import org.funstuff.secretcodes.EncodeResponse;
-import org.funstuff.secretcodes.SecretCodesServerGrpc;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class ClientStartup {
 
     private static final Logger logger = Logger.getLogger(ClientStartup.class.getName());
+
     public static void main(String[] args) throws IOException, InterruptedException {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
-                .usePlaintext()
-                .build();
+        Thread one = new Thread(() -> {
+            ArrayList<ListenableFuture<EncodeResponse>> responseFutures = new ArrayList<>();
+            ClientImpl client = new ClientImpl();
 
-        SecretCodesServerGrpc.SecretCodesServerBlockingStub stub =
-                SecretCodesServerGrpc.newBlockingStub(channel);
+            for (int i = 0; i < 10; i++) {
+                responseFutures.add(client.sendRequestOne());
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
-        String message = "A proper sentence.";
+        Thread two = new Thread(() -> {
+            ArrayList<ListenableFuture<EncodeResponse>> responseFutures = new ArrayList<>();
+            ClientImpl client = new ClientImpl();
 
-        EncodeRequest request = EncodeRequest.newBuilder()
-                .setMessage(message)
-                .addCode(Code.SWAP_ENDS)
-                .build();
+            for (int i = 0; i < 10; i++) {
+                responseFutures.add(client.sendRequestTwo());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
-        logger.info("Message I sent: " + request.getMessage());
+            for (ListenableFuture<EncodeResponse> future : responseFutures ) {
+                try {
+                    while(!future.isDone()) {}
+                    logger.info("Response: " + future.get().getMessage());
+                } catch (InterruptedException | ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
-        EncodeResponse response = stub.encode(request);
-        logger.info("Response I get: " + response.getMessage());
+        one.start();
+        two.start();
+
+        two.join();
+        one.join();
     }
 }
 

@@ -1,20 +1,20 @@
 package testclient;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import org.checkerframework.checker.units.qual.C;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.funstuff.secretcodes.EncodeResponse;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
+import java.util.concurrent.TimeoutException;
 
 public class ClientStartup {
 
-    private static final Logger logger = Logger.getLogger(ClientStartup.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         Thread one = new Thread(() -> {
             ArrayList<ListenableFuture<EncodeResponse>> responseFutures = new ArrayList<>();
             ClientImpl client = new ClientImpl();
@@ -44,10 +44,11 @@ public class ClientStartup {
 
             for (ListenableFuture<EncodeResponse> future : responseFutures ) {
                 try {
-                    while(!future.isDone()) {}
-                    logger.info("Response: " + future.get().getMessage());
+                    LOGGER.info("Response: " + future.get(10, TimeUnit.SECONDS).getMessage());
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
+                } catch (TimeoutException e) {
+                    LOGGER.info("Did not get response in time.");
                 }
             }
         });

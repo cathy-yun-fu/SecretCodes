@@ -3,19 +3,19 @@ package testclient;
 import com.google.common.util.concurrent.ListenableFuture;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.funstuff.secretcodes.Code;
 import org.funstuff.secretcodes.EncodeRequest;
 import org.funstuff.secretcodes.EncodeResponse;
 import org.funstuff.secretcodes.SecretCodesServerGrpc;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.logging.Logger;
 
 public class ClientImpl {
 
-    private static final Logger logger = Logger.getLogger(ClientImpl.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private static SecretCodesServerGrpc.SecretCodesServerFutureStub stub;
     ClientImpl() {
@@ -36,7 +36,7 @@ public class ClientImpl {
         ListenableFuture<EncodeResponse> response = stub.encode(request);
         response.addListener(()->{
             try {
-                logger.info("Response: " + response.get().getMessage());
+                LOGGER.info("Response: " + response.get().getMessage());
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }

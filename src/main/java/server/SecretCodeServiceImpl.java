@@ -2,20 +2,17 @@ package server;
 
 import io.grpc.stub.StreamObserver;
 import logic.Orchestrator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.funstuff.secretcodes.*;
-
-import java.util.logging.Logger;
 
 public class SecretCodeServiceImpl extends SecretCodesServerGrpc.SecretCodesServerImplBase {
 
-    private static final Logger logger = Logger.getLogger(SecretCodeServiceImpl.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public void decode(DecodeRequest request, StreamObserver<DecodeResponse> responseObserver) {
         throw new UnsupportedOperationException("Not implemented yet");
-
-//        responseObserver.onNext(null);
-//        responseObserver.onCompleted();
     }
 
     @Override
@@ -25,7 +22,7 @@ public class SecretCodeServiceImpl extends SecretCodesServerGrpc.SecretCodesServ
         }
 
         Orchestrator encoder = new Orchestrator(request.getCodeList());
-        logger.info("Code list " + request.getCodeList() + " for received message: " + request.getMessage());
+        LOGGER.info("Code list " + request.getCodeList() + " for received message: " + request.getMessage());
         String encodedMessage = encoder.run(request.getMessage());
 
         EncodeResponse response = EncodeResponse.newBuilder().setMessage(encodedMessage).build();

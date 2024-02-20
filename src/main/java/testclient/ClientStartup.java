@@ -44,7 +44,8 @@ public class ClientStartup {
 
             for (ListenableFuture<EncodeResponse> future : responseFutures ) {
                 try {
-                    LOGGER.info("Response: " + future.get(10, TimeUnit.SECONDS).getMessage());
+                    String message = future.get(10, TimeUnit.SECONDS).getMessage();
+                    LOGGER.info("Response: " + message );
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
                 } catch (TimeoutException e) {

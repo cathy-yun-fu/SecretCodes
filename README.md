@@ -1,7 +1,7 @@
 ## About 
-A small project I did in my extra time to get practice setting up a service from scratch.
+A fun small project I did while taking a career break
 
-`Secret Codes` is inspired by "ciphers" we used as kids to pass coded messages unreadable by adults.
+`Secret Codes` is inspired by "coded languages" we used as kids to pass coded messages unreadable by adults.
 
 ### Tech used:
 * Java + Maven

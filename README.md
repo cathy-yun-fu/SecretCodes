@@ -10,3 +10,5 @@ A fun small project I did while taking a career break
 * Protos
 
 ### How to use:
+Client startup: https://github.com/cathy-yun-fu/SecretCodes/blob/main/src/main/java/testclient/ClientStartup.java
+Server startup: https://github.com/cathy-yun-fu/SecretCodes/blob/main/src/main/java/server/ServerStartup.java

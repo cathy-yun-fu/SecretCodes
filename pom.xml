@@ -56,6 +56,14 @@
             <version>2.22.1</version>
         </dependency>
 
+        <!-- cryptography -->
+        <dependency>
+            <groupId>com.google.crypto.tink</groupId>
+            <artifactId>tink</artifactId>
+            <version>1.12.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

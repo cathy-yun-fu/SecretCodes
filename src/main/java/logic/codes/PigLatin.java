@@ -37,10 +37,9 @@ public class PigLatin extends Code {
                 // preserve symbols
                 finalWords.append(input1.charAt(wordStartIndex));
             } else if (word.length() == 1) {
-                // todo: review the following decision:
                 // In this version of Pig Latin, single letter words aren't morphed
                 finalWords.append(word);
-                appendMatcher(input1, wordEndIndex, finalWords);
+                appendWordBoundary(input1, wordEndIndex, finalWords);
             } else {
                 char[] letters = word.toCharArray();
                 StringBuilder finalWord = new StringBuilder();
@@ -51,7 +50,7 @@ public class PigLatin extends Code {
                 finalWord.append("ay");
 
                 finalWords.append(finalWord);
-                appendMatcher(input1, wordEndIndex, finalWords);
+                appendWordBoundary(input1, wordEndIndex, finalWords);
             }
         });
     }

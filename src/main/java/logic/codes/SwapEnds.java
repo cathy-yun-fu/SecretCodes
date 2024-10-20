@@ -18,7 +18,7 @@ public class SwapEnds extends Code {
                 finalWords.append(input1.charAt(wordStartIndex));
             } else if (word.length() == 1) {
                 finalWords.append(word);
-                appendMatcher(input1, wordEndIndex, finalWords);
+                appendWordBoundary(input1, wordEndIndex, finalWords);
             } else {
                 char[] letters =  word.toCharArray();
 
@@ -28,7 +28,7 @@ public class SwapEnds extends Code {
                 finalWord.append(letters[0]);
                 finalWords.append(finalWord);
 
-                appendMatcher(input1, wordEndIndex, finalWords);
+                appendWordBoundary(input1, wordEndIndex, finalWords);
             }
         });
     }

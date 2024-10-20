@@ -53,9 +53,9 @@ public class Code {
         return finalWords.toString();
     }
 
-    // appendMatcher adds the matched "non-word" char into output
+    // appendWordBoundary adds the matched "non-word" char into output
     // Ex: there!are -> ehert!era
-    protected void appendMatcher(String input, int index, StringBuilder finalWords) {
+    protected void appendWordBoundary(String input, int index, StringBuilder finalWords) {
         if ((input.length() - 1) < index) {
             return;
         }

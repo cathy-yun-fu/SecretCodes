@@ -35,7 +35,7 @@ public class PigLatinTest {
             as a vowel.
             There is a leading space and an ending space that is expected to be preserved.
          */
-        TestParams phraseOne = new TestParams(" No vowels yet Here ", " oNay owelsvay etyay ereHay ");
+        TestParams phraseOne = new TestParams(" No vowels yet Here t ", " oNay owelsvay etyay ereHay t ");
 
         /*
             This tests pig latin on words starting with vowels.
@@ -52,7 +52,7 @@ public class PigLatinTest {
         /*
             This phrase does not have leading or trailing spaces
          */
-        TestParams phraseOne = new TestParams("no spaces around the output eh","onay acesspay arounday ethay outputay ehay");
+        TestParams phraseOne = new TestParams("no spaces around the output eh a t","onay acesspay arounday ethay outputay ehay a t");
 
         /*
             This phrase does not have spaces at all
